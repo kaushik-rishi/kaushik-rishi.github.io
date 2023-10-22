@@ -65,7 +65,7 @@ export default async function Home() {
         />
       )}
       {aboutPage && (
-        <div className="container max-w-6xl">
+        <div className="container max-w-6xl mt-12">
           <h2 className="mb-8 font-heading text-4xl font-bold">Who&apos;s this guy again?</h2>
           <div className="grid grid-cols-1 place-items-start justify-between gap-12 lg:grid-cols-3">
             <div className="col-span-1 mx-auto flex flex-col items-center justify-center">
@@ -89,7 +89,7 @@ export default async function Home() {
                   href="/now"
                   className="mt-10 flex items-center py-2 text-sm text-accent-foreground underline-offset-4 hover:text-muted-foreground hover:underline"
                 >
-                  See what I&apos;m up to now <ArrowRight className="ml-2 h-4 w-4" />
+                  See what I&apos;m up to these days <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </article>
             </div>

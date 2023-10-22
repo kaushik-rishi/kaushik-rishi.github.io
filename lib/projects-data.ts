@@ -1,7 +1,7 @@
 // TODO: update projects
 export const projects = [
   {
-    title: "ProductEngineerJobs.co",
+    title: "Procmon",
     description: `Job board for product engineers. Built with Next.js, Tailwind CSS, and Airtable.`,
     href: "https://productengineerjobs.co",
     mediaSrc: "/project-pejobs.png",

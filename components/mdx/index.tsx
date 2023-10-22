@@ -6,6 +6,7 @@ import { Tweet } from "react-tweet";
 
 import { NewsletterCTA } from "./newsletter-cta";
 import { YouTubeVideo } from "./youtube-video";
+import Footer from "../footer";
 
 function CustomLink(props: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   const { href } = props;
@@ -32,6 +33,7 @@ const components = {
       </div>
     );
   },
+  Footer
 };
 
 interface MdxProps {

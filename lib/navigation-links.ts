@@ -36,14 +36,18 @@ export const navigationLinks: NavItem[] = [
   //   title: "Content",
   //   content,
   // },
-  {
-    title: "Projects",
-    href: "/projects",
-  },
+  // {
+  //   title: "Projects",
+  //   href: "/projects",
+  // },
   // {
   //   title: "Uses",
   //   href: "/uses",
   // },
+  {
+    title: "Posts",
+    href: "/posts",
+  },
   {
     title: "Now",
     href: "/now",

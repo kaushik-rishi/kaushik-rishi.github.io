@@ -28,31 +28,6 @@ const Footer = () => {
             </CopyButton>
           </div>
         </div>
-        <div className="flex flex-col gap-4 px-8 md:gap-2 md:px-0 lg:order-1">
-          <p className="text-sm text-muted-foreground md:text-left">
-            &copy; {new Date().getFullYear()} Built by {defaultAuthor.name}. &nbsp;
-            <a
-              href={defaultAuthor.socialProfiles.find((platform) => platform.name === "x")?.link}
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              {defaultAuthor.handle}
-            </a>
-          </p>
-          <p className="text-sm text-muted-foreground md:text-left">
-            Source code available on{" "}
-            <a
-              href={siteMetadata.siteRepo}
-              target="_blank"
-              rel="noreferrer"
-              className="font-medium underline underline-offset-4"
-            >
-              GitHub
-            </a>
-            .
-          </p>
-        </div>
       </div>
     </footer>
   );
