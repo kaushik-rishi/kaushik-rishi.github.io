@@ -4,8 +4,8 @@
   "private": true,
   "repository": "https://github.com/thedevdavid/digital-garden",
   "author": {
-    "name": "David Levai",
-    "url": "https://twitter.com/thedevdavid"
+    "name": "Kaushik Rishi",
+    "url": "https://github.com/kaushik-rishi"
   },
   "scripts": {
     "dev": "next dev",
