@@ -1,0 +1,43 @@
+---
+title: "Record classes and lombok"
+publishedDate: "2024-05-19"
+lastUpdatedDate: "2024-05-19"
+status: published
+tags:
+    - java
+    - programming
+    - small
+---
+
+## References
+- https://www.baeldung.com/java-record-keyword
+
+## Purpose
+- sending immutable data between objects
+- such classes
+  - hold data
+  - database results
+  - query results
+  - information from a service
+
+Nature of that data
+- immutable
+- **why ?** : immutability ensures the validity of data without synchronization.
+
+## Data class characteristics
+1. `private`, `final` field for each piece of data
+2. `getter` for each field
+3. `public constructor` with a corresponding argument for each field
+4. `equals` method that returns true for objects of the same class when all fields match
+5. `hashCode` method that returns the same value when all fields match
+6. `toString` method that includes the name of the class and the name of each field and its corresponding value
+
+- Problems with writing data classes on our own
+    1. ton of boilerplate
+    2. we obscure the purpose of our class: to represent a person with a name and address
+    3. have to update equals and hashCode with every new property added
+
+
+This is what record classes will mimic, with some more features for
+1. static properties
+2. constructor customization
