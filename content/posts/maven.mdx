@@ -1,0 +1,55 @@
+---
+title: "Maven"
+publishedDate: "2024-5-24"
+lastUpdatedDate: "2024-5-24"
+status: published
+series:
+  order: 1
+  title: "spring"
+---
+
+# Maven
+
+### Resources
+- [Video](youtube.com/watch?v=1e4jnp8iklo)
+- [Full notes](notebook.zohopublic.in/public/notes/bietv1d00e57bcbca4be89f155f6039985778)
+
+### About
+- project management
+- build generation
+- dependency resolution
+- documentation
+
+---
+
+- Maven uses **POM (project object model)**
+
+### Maven project structure
+
+- ⭐ **groupId** and **artifactId** uniquely identify a project in maven central
+
+![maven project structure](/posts/maven/project-structure.png)
+
+
+### Project lifecycle
+- all steps are sequential (if you need to run phase 4 goal 3, all steps from phase 1 to phase 4 goal 2 need to run first)
+- phase (`> tasks/goals`)
+- you can add more goals / plugins to each phase
+
+1. **validate** project structure - `mvn validate` - by default, if you don't add any plugins (eg: checkstyle), maven does not validate anything
+2. **compile** source code - `mvn compile` - compile and put the code under `${project.basedir}/target/classes` - internally does stuff using `javac`
+3. **test** the code (unit test) - `mvn test`
+4. **package** compiled code (produce jar/war) - `jar` will be placed in `target/` and this can be shipped to prod or added as a dependency in some other project, etc.
+5. **verify** the code (static code analysis) - maven does not verify anything by default unless you add plugins like `maven-pmd-plugin`
+6. **install** the package in local repository
+   - a local repo is present in your system
+   - remote repos - nexus salesforce repo, maven central public repo
+7. **deploy** the package to remote repo
+
+### How to configure which maven repo is used
+- default `~/.m2/repository`
+- can change through `~/.m2/settings.xml`
+
+### TODO next
+- learn more about how jars can be imported and their packages can be used in other codebases
+- how a jar can be deployed on local using tomcat
