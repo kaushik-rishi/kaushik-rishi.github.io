@@ -1,0 +1,159 @@
+---
+title: "OS: Threads vs Processes + CPU core/thread stuff"
+publishedDate: "2024-5-25"
+lastUpdatedDate: "2024-5-25"
+description: Thread and proccess basics
+status: published
+series:
+  order: 1
+  title: "concurrency"
+---
+
+# OS: Threads vs Processes + CPU core/thread stuff
+
+## Resources
+- [Proccess vs Thread](https://www.baeldung.com/cs/process-vs-thread)
+- [Multithreading and Concurrency in Java: Part1 | Threads, Process and their Memory Model in depth: Concept n Coding video](https://www.youtube.com/watch?v=TpYIcJN9EV8)
+- [notes]()
+
+## Thread vs Proccess
+
+![process vs thread](/posts/concurrency/processvsthread.png)
+
+### Proccess
+- instance of a program in execution
+- has own resources - memory, thread - os allocates when process is created
+- when jvm runs the bytecode, that's when process is spawned
+- **Qsn:** how can a process get it's own memory and resources if the jvm itself will have a limited memory allocated to it ?
+
+### Thread
+- lightweight process (or) smallest sequence of instructions that are executed by CPU independently
+- 1 process can have multiple threads
+
+- Java: when a process is created:
+  - it starts with 1 thread and that initial thread known as `main thread` and from that we can create multiple threads to perform concurrent tasks
+
+```java
+public class MLTExample {
+  public static void main(String[] args) {
+    // output: Thread Name: main
+    sout("Thread name : " + Thread.currentThread().getName());
+  }
+}
+```
+
+### How much memory does process gets ?
+- while creating process "java MainClassName"
+- a new JVM instance will get created and we decide how much heap need to be allocated
+
+- here you can see that new jvm instance is created for each process
+  - each process has 3 threads
+    - shared components between threads
+      - code segment
+        - container compiled bytecode of java program
+        - **read only**
+      - data segment
+        - global and static variables
+        - **threads can modify the same data**
+        - because of above point, synchronization is needed b/w multiple threads
+      - heap memory
+        - `new` keyword objects
+        - threads in a process share heap memory
+        - **threads can modify the same data**
+        - because of above point, synchronization is needed b/w multiple threads
+    - separate components between threads
+      - stack: each stack has one
+      - register
+        - Bytecode -> Machinecode through JIT, that's when we need intermediate variables
+        - helps in context switching ⭐⭐⭐
+      - counter
+        - points to instruction which is getting executed
+
+![new instance of jvm for each process](/posts/concurrency/jvm-instances-threads.png) 
+
+- But if parent JVM has 10gb memory, do the childs use it all ? No, we control the memory using the below command (controlled automatically too)
+  - But whatever all the processes require jvm memory, it will all be under the 10gb only
+```
+java -Xms256m -Xmx2g MainClassName
+
+-Xms<size> : sets initial heap size, i've set 256mb, max it can allocate is 2gb
+```
+
+### Example whole flow
+- javac Main.java
+- Bytecode generated
+- javac Main
+- 1 Process will be created
+- new JVM instance is allocated (-Xms1g)
+- Interpreter or JIT compiler starts converting bytecode to machinecode
+   - realises there's 3 threads in code
+   - initialises 3 threads with their own register, stack and counter
+   - Machine code -> will go into -> **Code Segment**
+- **Code segment** will have all the machine code
+- Each **counter** of each thread points to some position in **Code segment**
+- Now how will we run the program ?
+  - Assume it's a **single core single cpu system**
+    - 1cpu
+    - 1 register
+    - 1 cache
+    - 1 RAM
+
+```
+        CPU               
+  ┌─┬────────────┬─┐      
+  │ ├────────────┤ │      
+  │ │   register │ │      
+  │ │            │ │      
+  │ ├────────────┤ │      
+  └─┴──────┼─────┴─┘      
+           │              
+           │              
+           │              
+           │              
+           ▼              
+  ┌─────────────────┐     
+  │                 │     
+  │    cache        │     
+  │                 │     
+  │        │        │     
+  └────────┼────────┘     
+           │              
+           │              
+           │              
+           ▼              
+      ┌─────────┐         
+      │         │         
+      │  RAM    │         
+      │         │         
+      └─────────┘         
+```
+
+⭐ watch from this timestamp - [video](https://www.youtube.com/watch?v=TpYIcJN9EV8&t=2067s) - Context switching.
+
+### Important note - will be clear after watching the linked video
+- if theres 10 threads and 1 cpu, all the threads need to do context switching
+- if we have 2 cpus, some 2 threads might be running actually parallelly
+- context switching gives a visualisation of parallell programming
+
+
+### Defn of Multithreading
+- allows a program to perform multiple operations at the same time
+- ⭐ Multiple threads share the same resource such as memory space but still can perform task independently
+
+### Pros/Cons of MLT
+Benefits
+- improved perf. thro. parallelisn
+- resource sharing
+- responsiveness
+- All of these threads execute in parallel. The use time slices or, if the machine has more than one processor, then truly in parallel.
+- One of the advantages of using a thread group instead of a process group is that many operations can be performed in parallel. This allows events to be handled as they arrive.
+- Read this: https://www.baeldung.com/cs/process-vs-thread#advantages-and-disadvantages-of-using-threads-rather-than-processes
+
+Challenges
+- Concurrency issues like deadlock, data inconsistency - need to handle through synchronization
+- synchronized overhead
+- testing and debugging is difficult
+
+### Multitasking vs Multithreading
+- Process1 and process2 - multi tasking - no resource sharing (diff. tasks)
+- threads inside a process - multi threading - resource sharing (same task)
