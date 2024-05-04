@@ -1,0 +1,67 @@
+---
+title: "Lazy operations in programming, ft. Streams in java"
+publishedDate: "2024-5-19"
+lastUpdatedDate: "2024-5-19"
+tags:
+    - abstract
+    - small
+    - general-programming
+description: Wtf is lazy loading ?
+status: draft
+---
+
+## References
+- [map in streams java](https://www.geeksforgeeks.org/stream-map-java-examples/)
+- https://stackoverflow.com/a/23696571
+- [`findAny` vs `findFirst`](https://www.baeldung.com/java-stream-findfirst-vs-findany)
+- [Encounter order in streams](https://www.baeldung.com/java-stream-ordering#:~:text=2.,which%20a%20Stream%20encounters%20data.)
+
+---
+
+- Opposite of Lazy : eager
+
+---
+
+A lazy operation in programming refers to an operation or computation that is deferred until its results are actually needed. In other words, a lazy operation only performs the necessary calculations when
+it is absolutely necessary, rather than performing unnecessary computations upfront.
+
+Lazy operations can be useful in certain scenarios, such as:
+
+1. Memory optimization: Lazy operations can help reduce memory usage by avoiding the need to store intermediate results that may not be used later on.
+2. Performance optimization: By only performing calculations when necessary, lazy operations can improve performance by reducing the amount of work that needs to be done.
+3. Code simplicity: Lazy operations can simplify code by eliminating unnecessary computations and making it easier to reason about.
+
+Examples of lazy operations in programming include:
+
+1. Lazily evaluated expressions: In functional programming languages, expressions are often evaluated lazily, meaning that they are only computed when their results are needed. For example, in Haskell,
+the expression `map (+1) [1..5]` will only compute the values of the list `[2, 3, 4, 5, 6]` when its results are actually used.
+2. Lazy loading: In software development, lazy loading is a technique where data or resources are loaded only when they are needed, rather than upfront as part of the initialization process. This can help
+reduce memory usage and improve performance by avoiding unnecessary computations.
+3. Streams: In Java 8 and later versions, streams are a type of lazy operation that allow for a more functional programming style. Streams can be used to perform computations on data without necessarily
+loading all the data into memory at once. This makes them useful for large datasets where only a small subset of the data needs to be processed.
+
+The Streams API in Java is not necessarily lazy, but it can be used to implement lazy computations. The Streams API provides a way to process data in a functional programming style without necessarily
+loading all the data into memory at once. This makes it useful for large datasets where only a small subset of the data needs to be processed.
+
+However, whether or not a specific stream is lazy depends on how it is used and the underlying implementation of the stream. For example, if a stream is created using the `Stream.of()` method and it is
+not explicitly defined as lazy, then it will be evaluated eagerly, meaning that all the elements in the stream will be computed and stored in memory before any computations are performed on them.
+
+On the other hand, streams created using the `Stream.lazy()` method or by using a parallel stream can be implemented lazily, meaning that only a small subset of the data will be loaded into memory at a
+time, as needed. This can help reduce memory usage and improve performance in certain scenarios where large datasets need to be processed.
+
+In summary, while the Streams API in Java is not necessarily lazy by default, it can be used to implement lazy computations by using lazy streams or parallel streams.
+
+## Demo
+
+```java
+List<Integer> checksResults = Arrays.asList(1, 5, 10, 11, 4, 3);
+
+int a = checksResults.stream()
+        .peek(x -> System.out.println("will filter " + x))
+        .filter(x -> x > 5)
+        .findFirst()
+        .get();
+        
+System.out.println(a);
+```
+

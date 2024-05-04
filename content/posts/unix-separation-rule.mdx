@@ -1,0 +1,39 @@
+---
+title: "Unix Rule of Separation: Separate policy from mechanism"
+publishedDate: "2024-5-29"
+lastUpdatedDate: "2024-5-29"
+tags:
+    - abstract
+    - small
+description: A principle to think and reason our code structure
+status: draft
+series:
+  order: 0
+  title: "lld"
+---
+
+## References
+- [yini's blog about unix rule of separation](https://enrose.github.io/c-sharp/unix-rule-of-separation)
+
+## Sliding Doors example
+
+- when a new employee joins
+  - DO NOT:
+    - change the sliding doors for his access card to work
+  - DO:
+    - alter db of access control to add a new entry for Jon
+
+- Opening / Closing operation = Mechanism
+- Access control database = Policy
+  - Place that stores policy which determines who is allowed/disallowed access.
+
+## Example of Amalgamated Mechanism and Policy
+- Front door
+- When you rent the house
+  - you change the whole lock
+  - Why ?
+    - the key is physically built into the lock
+    - physical coupling - policy changes, mechanism should change as well
+
+## HOW TF DOES THIS TRANSLATE TO PROGRAMMING ?
+Solution : RULE ENGINE PATTERN - next article in this series

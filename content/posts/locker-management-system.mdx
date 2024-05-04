@@ -1,0 +1,77 @@
+---
+title: "Locker management system"
+publishedDate: "2024-5-29"
+lastUpdatedDate: "2024-5-29"
+tags:
+    - implementation
+    - large
+status: draft
+series:
+  order: 1
+  title: "lld-case-studies"
+---
+
+# Locker Management System
+
+## References
+- [https://www.youtube.com/watch?v=O_oLtUHlrXM&list=PL564gOx0bCLqTolRIHIsR2JPv11w8LESW&index=17](Udit Agarwal : Locker Management System)
+
+## Notes
+
+### Model Classes
+
+- Models are the most important thing to sort out first, once you are clear with the models 50% of your problem is solved then and there
+- Have `id` field for every model, eg: `id` for `Locker` and `slotId` for `Slot`
+- Generally have back references in Models for ease during writing code / implementing business logic
+```java
+// models/locker.java
+public class Locker {
+    private String id;
+    private List<Slot> slots;
+}
+
+// models/slot.java
+public class Slot {
+    private String slotId;
+    private Locker locker;
+}
+```
+
+#### Doubts
+- do these models not need to be exact maps of db tables ?
+- do i need more insight into spring part to get idea of this ?
+- can methods be bound to models ?
+  - `Slot` - `allocatePackage` & `deallocateSlot` & `isAvailable`
+  - `Locker` - `getAvailableSlots`
+- NEED CLEAR UNDERSTANDING OF `MODELS` relation with `DB`
+
+### About Thread Safety ⭐
+- in this implementation you will see a couple of methods marked as `synchronized` for the sake of thread safety
+- BUT IN GENERAL INTERVIEWS, YOU SPECIFICALLY ASK THE INTERVIEWER `I DON'T THINK THIS METHOD IS THREAD SAFE ? DO YOU WANT ME TO MAKE IT THREAD SAFE ?`
+- 2 kinds / level of interviews
+  - level 1
+    - entitites, relation building
+    - model designing
+    - uml
+    - business logic
+  - level 2 
+    - thread safety
+    - performance
+    - os concepts like mutex locks
+    - perf testing tooling
+
+
+## Structure of LLD problems involving entity and business logic (not games)
+1. Controller
+    - API
+    - where the call will start
+    - all API kinda methods land here
+2. Repository
+    - storage part
+    - db or in memory data store etc
+3. Service
+   - business logic 
+4. Strategies (auxilliary)
+   - for extensibility
+5. Exceptions (aux.)
+6. Utils (aux.)

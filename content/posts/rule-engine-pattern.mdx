@@ -1,0 +1,52 @@
+---
+title: "Rule Engine Pattern"
+publishedDate: "2024-5-29"
+lastUpdatedDate: "2024-5-29"
+tags:
+  - code
+description: 
+status: draft
+series:
+  order: 1
+  title: "lld"
+---
+
+## References
+- [yini's blog rule engine pattern](https://enrose.github.io/c-sharp/rule-engine/rule-engine-pattern)
+- https://tenmilesquare.com/resources/software-development/basic-rules-engine-design-pattern/
+- http://archive.today/2024.04.17-134121/https://blog.devgenius.io/open-closed-principle-and-rule-engine-design-pattern-904c784501e5
+- https://yiniski.medium.com/rule-engine-pattern-part-2-function-as-first-class-citizen-f0f8b35d1efd
+- https://github.com/j-easy/easy-rules
+- https://medium.com/@er.rameshkatiyar/what-is-rule-engine-86ea759ad97d
+- https://martinfowler.com/bliki/RulesEngine.html
+- https://medium.com/swlh/rules-pattern-1c59854547b
+- https://medium.com/javarevisited/rule-design-pattern-with-composite-rules-part-2-1642953d7580
+- http://archive.today/2023.10.26-000240/https://ayarmohammed96.medium.com/rule-engine-a-new-library-that-eradicates-if-else-statements-60e362a1ddb0
+
+
+### Some Requirements ?
+- write operations: satisfy a set of requirements before data persistence
+- set of requirements to be met before running something
+- validate some data against a set of validation rules
+
+### Issues
+1. chain of if statements
+2. ad-hoc priority management
+    - we need to fiddle around if statements
+    - worse when the if-else blockes are interlinked or share some state
+3. lack of state management
+    -  Hard to
+       -  share state
+       -  export the side effect after validations have run
+4. lack of variety of logical operations
+    - no declarative or incremental way to specify how we want validation units to run
+      - run till we hit first fails ?
+      - run all validation units irrespective of they fail or not ?
+      - run all the units in async manner ?
+
+### Rule Engine Implementation
+
+
+## Rule Engine for Customer Discount
+**Implementation**: https://github.com/kaushik-rishi/lld-rohit-verma/tree/main/Discount%20Rules%20Engine
+**Reference**: https://www.youtube.com/watch?v=HEPPZFeZ31w

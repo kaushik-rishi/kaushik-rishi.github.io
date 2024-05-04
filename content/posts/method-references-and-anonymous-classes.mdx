@@ -1,0 +1,95 @@
+---
+title: "Method references and Anon Classes"
+publishedDate: "2024-5-19"
+lastUpdatedDate: "2024-5-19"
+tags:
+    - abstract
+    - small
+    - general-programming
+status: published
+---
+
+## Method Reference
+
+**Question** 
+
+```list.stream().map(number -> number * 3).forEach(System.out::println)``` what is this type of notation ``System.out::println`` called ?
+
+**Answer**
+
+This type of notation, also known as a "method reference," allows you to pass the `println` method as an argument to the `forEach` method without having to define an anonymous class or lambda expression.
+It is equivalent to writing:
+```
+list.stream().map(number -> number * 3).forEach((Integer number) -> System.out.println(number));
+```
+In this case, the method reference `System.out::println` is used as the argument for the `forEach` method, which means that the `println` method will be called on each element in the stream with the
+corresponding parameter.
+
+Method references can also be used to pass a method of an object as an argument to another method, without having to create a new class or lambda expression. For example:
+```
+myObject.someMethod(otherObject::someOtherMethod);
+```
+This code passes the `someOtherMethod` method as an argument to the `someMethod` method of `myObject`, which means that the `someOtherMethod` method will be called on the `otherObject` instance with the
+corresponding parameter.
+
+----
+
+**Question**
+
+how do achieve the same behaviour using a new anonymous class or lambda expression ?
+
+**Answer**
+
+To achieve the same behavior as the method reference using an anonymous class or lambda expression, you can use the following code:
+```
+list.stream().map(number -> number * 3).forEach((Integer number) -> {
+    System.out.println(number);
+});
+```
+In this case, an anonymous class is used to define a `Runnable` object that contains the logic for printing each element in the stream. The lambda expression `(Integer number) -> { ... }` defines the same
+behavior as the method reference `System.out::println`, but without using the shorthand notation.
+
+Alternatively, you can use a lambda expression to define a separate method that prints each element and then pass that method as an argument to the `forEach` method:
+```
+list.stream().map(number -> number * 3).forEach(element -> {
+    System.out.println(element);
+});
+```
+In this case, the lambda expression `(element) -> { ... }` defines a separate method that takes an `Integer` argument and prints it to the console using the `System.out.println` method. The lambda
+expression is then passed as an argument to the `forEach` method, which means that the `printElement` method will be called on each element in the stream with the corresponding parameter.
+
+### Anonymous Classes
+
+An anonymous class is a class that is defined without giving it a name. Instead, an anonymous class is used as a nested class within another class or interface, or within a lambda expression or method
+reference. Anonymous classes are also known as local classes or inner classes.
+
+In Java, anonymous classes can be used to define a new class that extends or implements a given interface or class without having to create a separate file for the class definition. This allows for more
+flexibility and concise code when compared to defining a named class in a separate file.
+
+Anonymous classes are created using the `new` keyword followed by the class name, but instead of specifying a name for the class, an anonymous class is defined inside another class or interface. Here's an
+example of how to define an anonymous class:
+```
+public class MyClass {
+    public static void main(String[] args) {
+        // Anonymous inner class definition
+        MyClass myObject = new MyClass() {
+            @Override
+            public void myMethod() {
+                System.out.println("Hello, world!");
+            }
+        };
+
+        // Call the method on the anonymous object
+        myObject.myMethod();
+    }
+}
+```
+In this example, an anonymous inner class is defined within the `MyClass` class using the `new` keyword followed by the name of the outer class (`MyClass`). The anonymous inner class defines a new method
+named `myMethod` that prints "Hello, world!" to the console. The anonymous object is then created and used to call the `myMethod` method on the anonymous inner class.
+
+Anonymous classes are also known as local classes or inner classes because they are defined within another class or interface and are not accessible from outside the outer class or interface. However,
+unlike local variables, anonymous classes can be used to define new methods and fields that can be accessed by other methods in the outer class or interface.
+
+Anonymous classes are useful when you need to create a temporary object for a specific purpose within another class or interface. They are also useful when you want to avoid creating a separate file for a
+small class definition that is only used once or twice in your code. However, it's important to use anonymous classes judiciously because they can make the code harder to read and maintain if not used
+carefully.
