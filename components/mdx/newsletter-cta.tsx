@@ -4,6 +4,7 @@ import NewsletterSubscribe from "../newsletter-subscribe";
 import type { CTAProps } from "../newsletter-subscribe";
 
 export function NewsletterCTA({ className, ...props }: CTAProps & React.HTMLAttributes<HTMLDivElement>) {
+  console.log(props)
   return (
     <NewsletterSubscribe
       className={cn(
