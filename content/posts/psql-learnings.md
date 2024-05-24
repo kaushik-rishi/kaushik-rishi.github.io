@@ -146,3 +146,11 @@ psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" 
 
 - Instead of creating a linux user `kmanchukonda`, I can create a mapping in `pg_ident.conf` file
   - https://stackoverflow.com/a/69678738
+- above didn't work `usecase 2` useless
+
+Went ahead with https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04
+- will have to figure out, the non root user, permissions etc.
+
+---
+
+ALTER TABLE table_name RENAME COLUMN old_name TO new_name

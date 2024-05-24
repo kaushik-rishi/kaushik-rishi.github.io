@@ -1,0 +1,37 @@
+---
+title: "Servelet - Spring MVC - Spring Boot"
+publishedDate: "2024-5-24"
+lastUpdatedDate: "2024-5-24"
+status: published
+series:
+  order: 2
+  title: "spring"
+---
+
+# Servelet - Spring MVC - Spring Boot
+
+### Resources
+- [Video](https://www.youtube.com/watch?v=TMX1kQ4W4hI)
+- [Full notes](https://notebook.zohopublic.in/public/notes/bietvaf4a031eeb7245f19e651a16232e077a)
+
+### Outline
+- what is servlet and web.xml ?
+- tomcat and servlet container
+- advantages of spring mvc
+  - getting rid of web.xml
+  - inversion of control achieved through dependency injection
+  - to make unit testing easier
+    - how `@Autowired` and `@Component` annotations will make our class a `Bean` managed by spring
+    - it's easier to mock a dependency injected via `@Autowired` over `User sender = new User()`;
+  - integrations for testing, caching, database, messaging, security, asynchronous programming
+- spring framework workflow chart
+
+- "We" have to deploy the application on "Tomcat", we need to make the "war" and deploy it in tomcat
+
+Spring boot over Spring MVC
+- Dependency Management
+- Auto configuration, no need of
+  - AppConfig
+  - DispatcherServelet
+  - ComponentScan
+- Embedded server

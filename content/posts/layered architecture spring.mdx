@@ -1,0 +1,41 @@
+---
+title: "Spring boot Project setup and Layered Architecture"
+publishedDate: "2024-5-24"
+lastUpdatedDate: "2024-5-24"
+status: published
+series:
+  order: 3
+  title: "spring"
+---
+
+# Servelet - Spring MVC - Spring Boot
+
+### Outline
+- [Video](https://youtu.be/4QWW4v2u_ZI)
+- [Full notes](https://notebook.zohopublic.in/public/notes/bietv97e0afeb8fcf41e191da86e3898422b7)
+
+### Outline
+- JAR vs WAR
+  - jar: standalone java application, only java, libraries, microservices (java archive)
+  - war: web archive, jsp + html + css + java
+- Layered Architecture
+  - Controller Layer - `@Controller`, `@RestController`
+    - API route frontend
+    - Mapping of API Parameters to `RequestDTO`
+  - Service Layer - `@Service`
+    - Business logic
+    - Mapping of DB data to `ResponseDTO`
+    - Example, Create `Entity` and give to repository layer to insert
+  - Repository Layer - `@Repository`
+    - Interacts with DB
+- Other packages / modules
+  - DTO (data transfer object)
+    - `RequestDTO` - map the data coming from external client
+    - `ResponseDTO` - map the data being sent out from the server
+  - Utility (common methods used in services)
+  - Entity - `@Entity`
+    - POJO's
+    - Direct Representation of the Table
+  - Configuration - `application.properties`
+
+- ⭐ Example of a `getPaymentID` endpoint implemented using layered Architecture
