@@ -1,0 +1,30 @@
+---
+title: "How Intellij runs apps ?"
+publishedDate: "2024-6-1"
+lastUpdatedDate: "2024-6-1"
+status: published
+series:
+  order: 3
+  title: "spring"
+---
+
+### How intellij was running my standalonetelemetry application
+```sh
+/Users/kmanchukonda/.sdkman/candidates/java/17.0.7-oracle/bin/java -javaagent:/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=54019:/Applications/IntelliJ IDEA.app/Contents/bin -Dfile.encoding=UTF-8 -classpath /Users/kmanchukonda/personal/distributed-tracing/standalonetelemetry/target/classes:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.17.0/opentelemetry-sdk-1.17.0.jar:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.17.0/opentelemetry-sdk-common-1.17.0.jar:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-semconv/1.17.0-alpha/opentelemetry-semconv-1.17.0-alpha.jar:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.17.0/opentelemetry-sdk-trace-1.17.0.jar:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.17.0/opentelemetry-sdk-metrics-1.17.0.jar:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.17.0-alpha/opentelemetry-sdk-logs-1.17.0-alpha.jar:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.17.0/opentelemetry-exporter-logging-1.17.0.jar:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-api/1.17.0/opentelemetry-api-1.17.0.jar:/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-context/1.17.0/opentelemetry-context-1.17.0.jar com.mstracing.Main
+```
+- java: from sdkman
+- class: `com.mstracing.Main`
+- classpath, starting with target classes generated from `mvn compile` to all the other library `jars`
+```
+/Users/kmanchukonda/personal/distributed-tracing/standalonetelemetry/target/classes
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk/1.17.0/opentelemetry-sdk-1.17.0.jar
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk-common/1.17.0/opentelemetry-sdk-common-1.17.0.jar
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-semconv/1.17.0-alpha/opentelemetry-semconv-1.17.0-alpha.jar
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk-trace/1.17.0/opentelemetry-sdk-trace-1.17.0.jar
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk-metrics/1.17.0/opentelemetry-sdk-metrics-1.17.0.jar
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-sdk-logs/1.17.0-alpha/opentelemetry-sdk-logs-1.17.0-alpha.jar
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-exporter-logging/1.17.0/opentelemetry-exporter-logging-1.17.0.jar
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-api/1.17.0/opentelemetry-api-1.17.0.jar
+/Users/kmanchukonda/.m2/repository/io/opentelemetry/opentelemetry-context/1.17.0/opentelemetry-context-1.17.0.jar
+```
+- agent: `/Applications/IntelliJ IDEA.app/Contents/lib/idea_rt.jar=54019:/Applications/IntelliJ IDEA.app/Contents/bin`
