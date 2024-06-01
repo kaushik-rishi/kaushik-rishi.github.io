@@ -30,6 +30,25 @@ series:
   - `mvn package` - creates the jar file and adds it to the `target/` folder
     - To run the jar `java -jar target/greeterservice-0.1.0.jar`
       - if no main-class is there run `java -cp target/greeterservice-0.1.0.jar hello.Hello`
+  - AMAZING THING!! You can use maven to run a single class from the compiled classes using `mvn exec:java -Dexec.mainClass="hello.Hello"` adding a `-X` flag for debug output. 
+  - `mvn exec:java -Dexec.mainClass="hello.Hello" -X` - makes everything better, you'll get a crazy verbose output ([full log](https://text.is/86X1Y))
+  - for example
+```
+[DEBUG] Collected project classpath [/Users/kmanchukonda/personal/java-jar-basics/mvn-basics/target/classes]
+[DEBUG] Adding to classpath : /Users/kmanchukonda/personal/java-jar-basics/mvn-basics/target/classes
+[DEBUG] Adding project dependency artifact: joda-time to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-sdk to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-sdk-common to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-semconv to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-sdk-trace to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-sdk-metrics to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-sdk-logs to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-exporter-logging to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-api to classpath
+[DEBUG] Adding project dependency artifact: opentelemetry-context to classpath
+[DEBUG] joining on thread Thread[hello.Hello.main(),5,hello.Hello]
+Starting to read file...
+```
 
 ## Creating JAR and executing them
 - [Notes about JAR and Main-class manifest](https://stackoverflow.com/questions/9689793/cant-execute-jar-file-no-main-manifest-attribute/9689877#9689877)
