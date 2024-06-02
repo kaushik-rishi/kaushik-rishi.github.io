@@ -14,11 +14,12 @@ series:
 
 ## Resources
 - [git repo - maven setup from scratch](github.com/kaushik-rishi/mvn-basics)
+- [Java classpath tutorial (ClassLoader, NoClassDefFoundError, JVM, javac, javap -c, java -cp, jar cvf)](https://www.youtube.com/watch?v=o_MouGNA1AE&t=253s)
 
 ## Maven project setup
 >  Spring getting started guide and it's notes
 
-- https://spring.io/guides/gs/maven
+- https://spring.io/guides/gs/maven (a more refined version - https://medium.com/@dmaioni/build-java-projects-with-maven-af269165727e)
 - More pointers apart from the article
   - From `pom.xml`
     - `groupId` - website domain in reverse - insignificant
@@ -107,3 +108,13 @@ Caused by: java.lang.NoClassDefFoundError: io/opentelemetry/sdk/trace/export/Spa
   Jun 01, 2024 9:59:12 PM io.opentelemetry.exporter.logging.LoggingSpanExporter export
   INFO: 'process' : 1c264ef332185a7d4af226c9729c1553 da1473d8095f5eac INTERNAL [tracer: exampleTracer:] {}
   ```
+
+
+## some notes about javac compilation
+- Why do I not need to import modules from same/default package ? and what's with generating depedency class files when present in the same directory - [answer](https://chatgpt.com/share/fdcecba2-708e-47a4-ad66-70e577452985) ⭐⭐⭐
+
+### Extra Resources
+
+- [adding sql connector driver - maven](https://www.youtube.com/watch?v=zlHXH6maOR0)
+- [`mvn archetype:generate` to generate maven projects from templates](https://nuwanzen.medium.com/create-java-project-from-maven-a272c4cd9a4a)
+- [more about maven phases](https://medium.com/@j2eeexpert2015/maven-for-java-developers-a-step-by-step-guide-to-setting-up-and-building-projects-59152d09f00c)

@@ -1,0 +1,23 @@
+---
+title: "Javaagent - Opentelemetry based learnings"
+publishedDate: "2024-6-1"
+lastUpdatedDate: "2024-6-1"
+status: published
+series:
+  order: 2.3
+  title: "spring"
+---
+
+# Javaagent
+
+When i have been trying to set open telemetry application in integration with an observability backend, I've come across the concept of java agents, Different observability backends, like Datadog enterprise, lightstep enterprise, and even the base Opentelemetry SDK have the requirement of running your app by providing a java agent jar file and some custom env variables too.
+
+Take lightstep for example, (similarly it is for datadog)
+```sh
+export LS_ACCESS_TOKEN=your-token
+export LS_SERVICE_NAME=service-name
+java -javaagent:path/to/lightstep-opentelemetry-javaagent-0.16.0.jar \
+     -jar <app_name>.jar
+```
+
+These agents are super useful in APM (application performance monitoring), then inject some code before the Classloader step in JVM (refer [this resource](https://www.youtube.com/watch?v=hXTlV_RnELc))
