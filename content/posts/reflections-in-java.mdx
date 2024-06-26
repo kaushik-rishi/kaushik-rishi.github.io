@@ -1,0 +1,96 @@
+---
+title: "Reflection in java"
+publishedDate: "2024-6-25"
+lastUpdatedDate: "2024-6-25"
+status: published
+series:
+  order: 6.0
+  title: "spring"
+---
+
+# Reflections in Java
+
+### Outline
+- [Video](https://www.youtube.com/watch?v=P4UAoYiaHg4)
+- [Full notes](https://notebook.zohopublic.in/public/notes/u3i1sae669a127ac24a07842a488207750a7c)
+
+### Contents
+
+- examine stuff about classes, methods, fields, interfaces in runtime
+
+#### class `Class`
+- instance of this class, represents classes at RunTime
+- JVM creates one class object for each and every object loaded during runtime
+- the `Class` object, has metadata info about the particular class - method, fields, constructor, access modifiers
+- ⭐ methods of getting internal `Class` created by JVM (`class Bird {}`)
+  - `Class birdClass = Class.forName("Bird")`
+  - `Class birdClass = Bird.class`
+  - `Class birdClass = birdObj.getClass()`
+- `Class` has only getMethods - getFields, getName, getModifiers, no set methods
+
+#### Reflection of class, method, fields
+```java
+package com.mstracing.models;
+
+public class Eagle {
+    public String breed;
+    private boolean canSwim;
+
+    public void fly(int speed) {
+        System.out.println("flying at speed " + speed);
+    }
+
+    public void eat() {
+        System.out.println("eat");
+    }
+}
+
+```
+
+```java
+package com.mstracing;
+
+import com.mstracing.models.Eagle;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+
+public class ReflectionDemo {
+    public static void main() throws InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        Class<Eagle> eagleClass = Eagle.class;
+        System.out.println(eagleClass.getName());
+        System.out.println(Modifier.toString(eagleClass.getModifiers()));
+
+        // only returns public methods - all along the parent chain
+        Method[] methods = eagleClass.getMethods();
+        // all public and private classes - only of current class
+        // Method[] methods = eagleClass.getDeclaredMethods();
+        for (Method method: methods) {
+            System.out.println(method.getName());
+            System.out.println(method.getReturnType());
+            System.out.println(method.getDeclaringClass());
+            System.out.println("*********");
+        }
+
+        // invoking the method
+        Object eagleObject = eagleClass.newInstance();
+        // get fly method which has it's first param as int
+        Method flyMethod = eagleClass.getMethod("fly", int.class);
+        flyMethod.invoke(eagleObject, 100);
+
+        // getting fields
+        // similar to methods - Field[] fields = eagleClass.getFields(); & getDeclaredFields();
+        // can also set values of public and private fields
+    }
+}
+```
+
+#### Reflection of `constructor`
+- breaks singleton
+- if there's a private constructor - you can set accessible to true - and create an object using newInstance
+
+
+----
+
+Reflection is slow, because it's in runtime

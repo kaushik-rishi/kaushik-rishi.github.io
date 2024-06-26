@@ -1,0 +1,44 @@
+---
+title: "Spring Boot: Controller Annotations"
+publishedDate: "2024-6-25"
+lastUpdatedDate: "2024-6-25"
+status: published
+series:
+  order: 6.2
+  title: "spring"
+---
+
+# Controller Annotations
+
+### Outline
+- [Video](https://www.youtube.com/watch?v=ndSUJYNa8T8)
+- [Full notes](https://notebook.zohopublic.in/public/notes/bietv0de3bac30fbd41e7b1346bf9243ad3b2)
+- [spring starter](https://spring.io/guides/gs/rest-service)
+
+### Contents
+
+- `@Controller` + `@ResponseBody` + `@RequestMapping` (old method) = `@RestController` + `@Get/Post/Put/DeleteMapping` (latest method)
+- `@ResponseBody` - to say it's not jsp
+- `@ResponseEntity` - modify response status codes
+- `@RequestBody`
+  - ⭐ Bind the body of HTTP request (JSON) to controller method parameter (Java object)
+  - uses JACKSON or GSON internally to map json to java and converse
+  - used for `@PostMapping`
+- `@RequestParam` : query params (?name=rishi)
+- `@PathVariable` : path params (/api/books/\{id\})
+
+---
+
+- PropertyEditor
+  - `@InitBinder`
+  - `DataBinder`
+  - `PropertyEditorSupport`
+
+---
+
+- `@SpringBootApplication` is a combination of
+  - `@Configuration` - source of bean definitions for app context
+  - `@EnableAutoConfiguration` - add beans based on classpath settings - eg - spawn `DispatcherServelet` if `spring-webmvc` discovered in classpath
+  - `@ComponentScan` - asks spring to scan for components, configurations, services in `com.example.app` package and it's sub packages
+    - ⭐ https://stackoverflow.com/a/71775612/13641740 - auto scanning won't work if controllers not present inside the application package
+
