@@ -1,0 +1,472 @@
+---
+title: "Creational Design Patterns"
+publishedDate: "2024-10-20"
+lastUpdatedDate: "2024-10-20"
+status: published
+---
+
+# Creational Design Patterns
+
+- creating an object
+- we can use constructor
+
+## Singleton Design Pattern
+
+```java
+public class Singleton {
+    // eager initialization
+    private static final Singleton instance = new Singleton();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        return instance;
+    }
+}
+
+// usage
+Singleton.getInstance();
+
+Singleton.instance;
+```
+
+### Followup-1
+- the above class always creates instance without we needing it.
+- implement the concept of **lazy initialization**
+
+```java
+public class Singleton {
+    // lazy initialization
+    private static final Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+// usage
+Singleton.getInstance();
+```
+
+### Followup-2
+- is this code thread safe ?
+
+No
+
+### Followup-3
+- can you make it threadsafe ?
+
+```java
+public class Singleton {
+    // lazy initialization
+    private static final Singleton instance;
+
+    private Singleton() {}
+
+    public static synchronized Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+Singleton.getInstance();
+```
+
+### Followup-4
+- How about the performance of the class ? (concurrency perspective)
+  - Multithreaded system is being bottlenecked due to synchronized block
+  - Poor performance
+
+
+### Followup-5
+- can you improve the performance ?
+    - once the instance is created, do you need the synchronized block anymore ?
+    - **Double checked locking**
+
+
+**WRONG APPROACH**
+
+```java
+if (instance == null) {
+    synchronized(Singleton.class) { // or can use a lock object temporarily
+        instance = new Singleton();
+    }
+}
+```
+
+**RIGHT APPROACH**
+```java
+public class Singleton {
+    // lazy initialization
+    private static final Singleton instance;
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized(Singleton.class) { // or can use a lock object temporarily
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+Singleton.getInstance();
+```
+
+### Followup-6
+use volatile
+
+### Followup-7
+Static inner class version / bill pugh singleton
+
+- by default static inner classes are lazily evaluated and also are thread safe
+
+```java
+public class Singleton {
+    private Singleton() {}
+
+    private static class SingletonHelper {
+        private static final Singleton instance = new Singleton();
+    }
+
+    public static Singleton getInstance() {
+        return SingletonHelper.instance;
+    }
+}
+
+Singleton.getInstance();
+```
+
+### Followup-8
+What's the best method ?
+- `Enum` classes are singleton by default in java
+
+```java
+public enum Singleton {
+    INSTANCE;
+}
+
+Singleton instance = Singleton.INSTANCE;
+```
+
+
+## Cascading pattern
+- dropwizard framework - alternative to spring boot
+- better readability
+
+```java
+class Mailer {
+    public void from(String addr) { this.addr = addr; }
+    public void to(String to) { this.to = to; }
+    public void subject(String subject) { this.subject = subject; }
+    public void body(String body) { this.body = body; }
+}
+
+public class Sample {
+    public static void main(String[] args) {
+        Mailer mailer = new Mailer();
+        mailer.from("rishi.cp01@gmail.com");
+        mailer.to("kamal04sritha@gmail.com");
+        mailer.subject("this is my subject");
+        mailer.body("this is the email body");
+    }
+}
+```
+
+
+With the cascading pattern
+```java
+class Mailer {
+    public void from(String addr) { this.addr = addr; return this; }
+    public void to(String to) { this.to = to; return this; }
+    public void subject(String subject) { this.subject = subject; return this; }
+    public void body(String body) { this.body = body; return this; }
+}
+
+public class Sample {
+    public static void main(String[] args) {
+        Mailer mailer = new Mailer();
+        mailer.from("rishi.cp01@gmail.com")
+                .to("kamal04sritha@gmail.com")
+                .subject("this is my subject")
+                .body("this is the email body");
+    }
+}
+```
+
+------------------------------
+
+## Builder Pattern
+- a pattern like this isn't neccessary in a language like python
+  - it has the feature of named parameters
+
+- moving away from setters
+  - to encourage immutability
+    - immutability will reduce concurrency
+  - put validation logic through builder pattern
+
+```java
+class User {
+    private String firstName;
+    private String lastName;
+    private int age;
+    private String phoneNumber;
+    private String address;
+
+    private User(UserBuilder builder) {
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
+        this.age = builder.age;
+        this.phoneNumber = builder.phoneNumber;
+        this.address = builder.address;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
+
+    public String getAge() {
+        return this.age;
+    }
+
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+    
+    public static class UserBuilder {
+        private String firstName;
+        private String lastName;
+        private int age;
+        private String phoneNumber;
+        private String address;
+
+        public void UserBuilder(String firstName, String lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
+
+        public UserBuilder age(int age) {
+            this.age = age;
+            return this;
+        }
+
+        public UserBuilder phoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public UserBuilder address(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
+    }
+}
+
+// usage
+public User getUser() {
+    return new User.UserBuilder("Kaushik", "Rishi")
+                .age(23)
+                .phoneNumber("9908947757")
+                .address("rock town");
+}
+```
+
+## Factory Pattern
+
+1. Static Factory Method (not in GOF)
+2. Factory / Simple Factory (not in GOF)
+3. Factory method pattern
+4. Abstract Factory pattern
+
+### Static Factory Method
+- Consider static factory method over constructor for creating objects.
+- VERY POWERFUL PATTERN, EVERYONE SHOULD USED IT
+  - it's used widely in collections framework
+
+Benefits it provides
+- constructor won't have names, but static factory methods have names
+  - `getInstance` is clearly telling me what i'm creating
+- Example
+  - `new ArrayList()`
+  - instead
+    - `List.of()`
+    - `List.empty()`
+
+```java
+class Singleton {
+    private static volatile final instance;
+
+    private Singleton() {}
+
+    // STATIC FACTORY METHOD 🔽
+    public static getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+```
+
+- limitation of language, which is creating a need for static factory method
+```java
+// NOT POSSIBLE
+class Test {
+    int x;
+    int y;
+    int z;
+
+    public Test(int x, int y) {
+
+    }
+
+    public Test(int x, int z) {
+
+    }
+}
+
+// POSSIBLE
+class Test {
+    int x;
+    int y;
+    int z;
+
+    private Test() {}
+
+    Test createTestWithXandY(int x, int y) {
+        Test test = new Test();
+        test.x = x;
+        test.y = y;
+        return test;
+    }
+
+    Test createTestWithYandZ(int y, int z) {
+        Test test = new Test();
+        test.y = y;
+        test.z = z;
+        return test;
+    }
+}
+```
+- we can perform validations in static factory method
+- flyway and singleton patterns are extensions of this pattern
+
+### Factory/Simple Factory Method
+
+- 2 examples of simple factory
+
+```java
+// POSSIBLE
+class Test {
+    int x;
+    int y;
+    int z;
+
+    private Test() {}
+}
+
+class TestFactory {
+    Test createTestWithXandY(int x, int y) {
+        Test test = new Test();
+        test.x = x;
+        test.y = y;
+        return test;
+    }
+
+    Test createTestWithYandZ(int y, int z) {
+        Test test = new Test();
+        test.y = y;
+        test.z = z;
+        return test;
+    }
+}
+```
+
+- example 2
+  - hides details of animal creation from the client
+  - we are providing the client an interface for animal creation
+
+```java
+interface Animal {}
+
+class Dog implements Animal {}
+class Tiger implements Animal {}
+
+class AnimalFactory {
+    public Animal getAnimal(String animal) {
+        if (animal.equals("Dog")) {
+            return new Dog();
+        }
+        if (animal.equals("Tiger")) {
+            return new Tiger();
+        }
+
+        throw IllegalArgumentException("Invalid animal");
+    }
+}
+```
+
+### Factor Method Pattern
+
+- Def: Define an interface for creating an object, but let subclasses decide which class to instantiate, Factory Method lets a class defer instantiation to subclasses.
+
+```java
+interface AnimalFactory {
+    Animal getAnimal();
+}
+
+class DogFactory implements AnimalFactory {
+    Animal getAnimal() {
+        return new Dog();
+    }
+}
+
+class TigerFactory implements AnimalFactory {
+    Animal getAnimal() {
+        return new Tiger();
+    }
+}
+
+// USAGE - 1 level of abstraction
+AnimalFactory dogFactory = new DogFactory();
+Dog dog = dogFactory.getAnimal();
+```
+
+### Abstract Factory Pattern / Factory of factories
+- Def: provide an interface for creating families of related or dependent objects without specifying their concrete class.
+
+```java
+WildDog
+WildTiger
+PetDog
+PetTiger
+
+interface Animal {}
+interface PetAnimal extends Animal {}
+interface WildAnimal extends Animal {}
+
+interface AnimalFactory {}
+```
